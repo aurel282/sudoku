@@ -7,7 +7,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
-import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
 import 'package:very_good_slide_puzzle/simple/simple.dart';
@@ -18,7 +17,6 @@ import '../../helpers/helpers.dart';
 void main() {
   group('PuzzleKeyboardHandler', () {
     late ThemeBloc themeBloc;
-    late DashatarPuzzleBloc dashatarPuzzleBloc;
     late PuzzleBloc puzzleBloc;
     late Puzzle puzzle;
     late AudioPlayer audioPlayer;
@@ -34,15 +32,11 @@ void main() {
       themeBloc = MockThemeBloc();
       when(() => themeBloc.state).thenReturn(
         ThemeState(
-          themes: [SimpleTheme(), GreenDashatarTheme()],
+          themes: [SimpleTheme()],
           theme: SimpleTheme(),
         ),
       );
 
-      dashatarPuzzleBloc = MockDashatarPuzzleBloc();
-      when(() => dashatarPuzzleBloc.state).thenReturn(
-        DashatarPuzzleState(secondsToBegin: 3),
-      );
 
       puzzleBloc = MockPuzzleBloc();
       final puzzleState = MockPuzzleState();
@@ -76,7 +70,6 @@ void main() {
           audioPlayer: () => audioPlayer,
         ),
         themeBloc: themeBloc,
-        dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
         audioControlBloc: audioControlBloc,
       );
@@ -110,7 +103,6 @@ void main() {
           audioPlayer: () => audioPlayer,
         ),
         themeBloc: themeBloc,
-        dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
         audioControlBloc: audioControlBloc,
       );
@@ -144,7 +136,6 @@ void main() {
           audioPlayer: () => audioPlayer,
         ),
         themeBloc: themeBloc,
-        dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
         audioControlBloc: audioControlBloc,
       );
@@ -178,7 +169,6 @@ void main() {
           audioPlayer: () => audioPlayer,
         ),
         themeBloc: themeBloc,
-        dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
         audioControlBloc: audioControlBloc,
       );
@@ -200,19 +190,16 @@ void main() {
 
     testWidgets(
         'does not add TileTapped '
-        'when arrow is pressed and '
-        'Dashatar puzzle is not started', (tester) async {
+        'when arrow is pressed ', (tester) async {
       when(() => themeBloc.state).thenReturn(
         ThemeState(
-          themes: [SimpleTheme(), GreenDashatarTheme()],
-          theme: GreenDashatarTheme(),
+          themes: [SimpleTheme()],
         ),
       );
 
       await tester.pumpApp(
         PuzzleKeyboardHandler(child: SizedBox()),
         themeBloc: themeBloc,
-        dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
         audioControlBloc: audioControlBloc,
       );
@@ -234,7 +221,6 @@ void main() {
           child: SizedBox(key: key),
         ),
         themeBloc: themeBloc,
-        dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
         audioControlBloc: audioControlBloc,
       );
@@ -248,7 +234,6 @@ void main() {
           child: SizedBox(),
         ),
         themeBloc: themeBloc,
-        dashatarPuzzleBloc: dashatarPuzzleBloc,
         puzzleBloc: puzzleBloc,
         audioControlBloc: audioControlBloc,
       );

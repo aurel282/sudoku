@@ -4,7 +4,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
-import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
@@ -14,20 +13,9 @@ import 'package:very_good_slide_puzzle/timer/timer.dart';
 
 class MockPuzzleTheme extends Mock implements PuzzleTheme {}
 
-class MockDashatarTheme extends Mock implements DashatarTheme {}
 
 class MockThemeBloc extends MockBloc<ThemeEvent, ThemeState>
     implements ThemeBloc {}
-
-class MockDashatarThemeBloc
-    extends MockBloc<DashatarThemeEvent, DashatarThemeState>
-    implements DashatarThemeBloc {}
-
-class MockDashatarPuzzleBloc
-    extends MockBloc<DashatarPuzzleEvent, DashatarPuzzleState>
-    implements DashatarPuzzleBloc {}
-
-class MockDashatarPuzzleState extends Mock implements DashatarPuzzleState {}
 
 class MockPuzzleBloc extends MockBloc<PuzzleEvent, PuzzleState>
     implements PuzzleBloc {}

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
-import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/simple/simple.dart';
 import 'package:very_good_slide_puzzle/theme/theme.dart';
 
@@ -20,7 +19,7 @@ void main() {
     setUp(() {
       themeBloc = MockThemeBloc();
       final themeState = ThemeState(
-        themes: [SimpleTheme(), GreenDashatarTheme()],
+        themes: [SimpleTheme()],
         theme: SimpleTheme(),
       );
       when(() => themeBloc.state).thenReturn(themeState);
@@ -71,7 +70,7 @@ void main() {
         'with PuzzleTheme.audioControlOnAsset '
         'when the audio is unmuted', (tester) async {
       final themeState = ThemeState(
-        themes: [SimpleTheme(), GreenDashatarTheme()],
+        themes: [SimpleTheme()],
         theme: SimpleTheme(),
       );
       when(() => themeBloc.state).thenReturn(themeState);
@@ -96,36 +95,7 @@ void main() {
       );
     });
 
-    testWidgets(
-        'renders Image '
-        'with PuzzleTheme.audioControlOffAsset '
-        'when the audio is muted', (tester) async {
-      final themeState = ThemeState(
-        themes: [SimpleTheme(), GreenDashatarTheme()],
-        theme: GreenDashatarTheme(),
-      );
-      when(() => themeBloc.state).thenReturn(themeState);
-
-      when(() => audioControlBloc.state)
-          .thenReturn(AudioControlState(muted: true));
-
-      await tester.pumpApp(
-        AudioControl(),
-        themeBloc: themeBloc,
-        audioControlBloc: audioControlBloc,
-      );
-
-      expect(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is Image &&
-              (widget.image as AssetImage).assetName ==
-                  GreenDashatarTheme().audioControlOffAsset,
-        ),
-        findsOneWidget,
-      );
-    });
-
+    
     testWidgets('renders on a large display', (tester) async {
       tester.setLargeDisplaySize();
 

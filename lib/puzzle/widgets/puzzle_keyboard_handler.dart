@@ -5,11 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
-import 'package:very_good_slide_puzzle/dashatar/dashatar.dart';
 import 'package:very_good_slide_puzzle/helpers/helpers.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
 import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
 
 /// {@template puzzle_keyboard_handler}
 /// A widget that listens to the keyboard events and moves puzzle tiles
@@ -56,15 +54,8 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
   }
 
   void _handleKeyEvent(RawKeyEvent event) {
-    final theme = context.read<ThemeBloc>().state.theme;
 
-    // The user may move tiles only when the puzzle is started.
-    // There's no need to check the Simple theme as it is started by default.
-    final canMoveTiles = !(theme is DashatarTheme &&
-        context.read<DashatarPuzzleBloc>().state.status !=
-            DashatarPuzzleStatus.started);
-
-    if (event is RawKeyDownEvent && canMoveTiles) {
+    if (event is RawKeyDownEvent) {
       final puzzle = context.read<PuzzleBloc>().state.puzzle;
       final physicalKey = event.data.physicalKey;
 
