@@ -53,7 +53,6 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return AudioControlListener(

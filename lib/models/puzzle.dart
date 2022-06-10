@@ -52,19 +52,6 @@ class Puzzle extends Equatable {
     return tiles.singleWhere((tile) => tile.isWhitespace);
   }
 
-  /// Gets the tile relative to the whitespace tile in the puzzle
-  /// defined by [relativeOffset].
-  Tile? getTileRelativeToWhitespaceTile(Offset relativeOffset) {
-    final whitespaceTile = getWhitespaceTile();
-    return tiles.singleWhereOrNull(
-      (tile) =>
-          tile.currentPosition.x ==
-              whitespaceTile.currentPosition.x + relativeOffset.dx &&
-          tile.currentPosition.y ==
-              whitespaceTile.currentPosition.y + relativeOffset.dy,
-    );
-  }
-
   /// Gets the number of tiles that are currently in their correct position.
   int getNumberOfCorrectTiles() {
     var numberOfCorrectTiles = 0;

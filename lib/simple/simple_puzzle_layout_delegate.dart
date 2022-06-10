@@ -265,7 +265,7 @@ class SimplePuzzleBoard extends StatelessWidget {
     Key? key,
     required this.size,
     required this.tiles,
-    this.spacing = 8,
+    this.spacing = 16,
   }) : super(key: key);
 
   /// The size of the board.
@@ -292,9 +292,9 @@ class SimplePuzzleBoard extends StatelessWidget {
 }
 
 abstract class _TileFontSize {
-  static double small = 36;
-  static double medium = 50;
-  static double large = 54;
+  static double small = 10;
+  static double medium = 12;
+  static double large = 14;
 }
 
 /// {@template simple_puzzle_tile}
