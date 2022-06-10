@@ -63,11 +63,6 @@ class Puzzle extends Equatable {
     return (tiles.length - 1) - getNumberOfCorrectTiles() == 0;
   }
 
-  /// Determines if the tapped tile can move in the direction of the whitespace
-  /// tile.
-  bool isTileMovable(Tile tile) {
-    return true;
-  }
 
   /// Gives the number of inversions in a puzzle given its tile arrangement.
   ///
