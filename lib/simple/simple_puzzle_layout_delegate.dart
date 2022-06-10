@@ -157,11 +157,6 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
   }
 
   @override
-  Widget whitespaceTileBuilder() {
-    return const SizedBox();
-  }
-
-  @override
   List<Object?> get props => [];
 }
 
