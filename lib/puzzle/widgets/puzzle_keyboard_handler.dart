@@ -53,29 +53,6 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
     super.dispose();
   }
 
-  void _handleKeyEvent(RawKeyEvent event) {
-
-    if (event is RawKeyDownEvent) {
-      final puzzle = context.read<PuzzleBloc>().state.puzzle;
-      final physicalKey = event.data.physicalKey;
-
-      Tile? tile;
-      if (physicalKey == PhysicalKeyboardKey.arrowDown) {
-        tile = puzzle.getTileRelativeToWhitespaceTile(const Offset(0, -1));
-      } else if (physicalKey == PhysicalKeyboardKey.arrowUp) {
-        tile = puzzle.getTileRelativeToWhitespaceTile(const Offset(0, 1));
-      } else if (physicalKey == PhysicalKeyboardKey.arrowRight) {
-        tile = puzzle.getTileRelativeToWhitespaceTile(const Offset(-1, 0));
-      } else if (physicalKey == PhysicalKeyboardKey.arrowLeft) {
-        tile = puzzle.getTileRelativeToWhitespaceTile(const Offset(1, 0));
-      }
-
-      if (tile != null) {
-        context.read<PuzzleBloc>().add(TileTapped(tile));
-        unawaited(_audioPlayer.replay());
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +60,6 @@ class _PuzzleKeyboardHandlerState extends State<PuzzleKeyboardHandler> {
       audioPlayer: _audioPlayer,
       child: RawKeyboardListener(
         focusNode: _focusNode,
-        onKey: _handleKeyEvent,
         child: Builder(
           builder: (context) {
             if (!_focusNode.hasFocus) {
