@@ -322,7 +322,6 @@ class SimplePuzzleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 
     return TextButton(
       style: TextButton.styleFrom(
@@ -340,11 +339,11 @@ class SimplePuzzleTile extends StatelessWidget {
         backgroundColor: MaterialStateProperty.resolveWith<Color?>(
           (states) {
             if (tile.value == state.lastTappedTile?.value) {
-              return theme.pressedColor;
+              return PuzzleColors.primary7;
             } else if (states.contains(MaterialState.hovered)) {
-              return theme.hoverColor;
+              return PuzzleColors.primary3;
             } else {
-              return theme.defaultColor;
+              return PuzzleColors.primary5;
             }
           },
         ),
