@@ -47,11 +47,6 @@ class Puzzle extends Equatable {
     return sqrt(tiles.length).toInt();
   }
 
-  /// Gets the single whitespace tile object in the puzzle.
-  Tile getWhitespaceTile() {
-    return tiles.singleWhere((tile) => tile.isWhitespace);
-  }
-
   /// Gets the number of tiles that are currently in their correct position.
   int getNumberOfCorrectTiles() {
     var numberOfCorrectTiles = 0;
@@ -71,41 +66,7 @@ class Puzzle extends Equatable {
   /// Determines if the tapped tile can move in the direction of the whitespace
   /// tile.
   bool isTileMovable(Tile tile) {
-    final whitespaceTile = getWhitespaceTile();
-    if (tile == whitespaceTile) {
-      return false;
-    }
-
-    // A tile must be in the same row or column as the whitespace to move.
-    if (whitespaceTile.currentPosition.x != tile.currentPosition.x &&
-        whitespaceTile.currentPosition.y != tile.currentPosition.y) {
-      return false;
-    }
     return true;
-  }
-
-  /// Determines if the puzzle is solvable.
-  bool isSolvable() {
-    final size = getDimension();
-    final height = tiles.length ~/ size;
-    assert(
-      size * height == tiles.length,
-      'tiles must be equal to size * height',
-    );
-    final inversions = countInversions();
-
-    if (size.isOdd) {
-      return inversions.isEven;
-    }
-
-    final whitespace = tiles.singleWhere((tile) => tile.isWhitespace);
-    final whitespaceRow = whitespace.currentPosition.y;
-
-    if (((height - whitespaceRow) + 1).isOdd) {
-      return inversions.isEven;
-    } else {
-      return inversions.isOdd;
-    }
   }
 
   /// Gives the number of inversions in a puzzle given its tile arrangement.
@@ -116,9 +77,6 @@ class Puzzle extends Equatable {
     var count = 0;
     for (var a = 0; a < tiles.length; a++) {
       final tileA = tiles[a];
-      if (tileA.isWhitespace) {
-        continue;
-      }
 
       for (var b = a + 1; b < tiles.length; b++) {
         final tileB = tiles[b];
@@ -132,61 +90,7 @@ class Puzzle extends Equatable {
 
   /// Determines if the two tiles are inverted.
   bool _isInversion(Tile a, Tile b) {
-    if (!b.isWhitespace && a.value != b.value) {
-      if (b.value < a.value) {
-        return b.currentPosition.compareTo(a.currentPosition) > 0;
-      } else {
-        return a.currentPosition.compareTo(b.currentPosition) > 0;
-      }
-    }
     return false;
-  }
-
-  /// Shifts one or many tiles in a row/column with the whitespace and returns
-  /// the modified puzzle.
-  ///
-  // Recursively stores a list of all tiles that need to be moved and passes the
-  // list to _swapTiles to individually swap them.
-  Puzzle moveTiles(Tile tile, List<Tile> tilesToSwap) {
-    final whitespaceTile = getWhitespaceTile();
-    final deltaX = whitespaceTile.currentPosition.x - tile.currentPosition.x;
-    final deltaY = whitespaceTile.currentPosition.y - tile.currentPosition.y;
-
-    if ((deltaX.abs() + deltaY.abs()) > 1) {
-      final shiftPointX = tile.currentPosition.x + deltaX.sign;
-      final shiftPointY = tile.currentPosition.y + deltaY.sign;
-      final tileToSwapWith = tiles.singleWhere(
-        (tile) =>
-            tile.currentPosition.x == shiftPointX &&
-            tile.currentPosition.y == shiftPointY,
-      );
-      tilesToSwap.add(tile);
-      return moveTiles(tileToSwapWith, tilesToSwap);
-    } else {
-      tilesToSwap.add(tile);
-      return _swapTiles(tilesToSwap);
-    }
-  }
-
-  /// Returns puzzle with new tile arrangement after individually swapping each
-  /// tile in tilesToSwap with the whitespace.
-  Puzzle _swapTiles(List<Tile> tilesToSwap) {
-    for (final tileToSwap in tilesToSwap.reversed) {
-      final tileIndex = tiles.indexOf(tileToSwap);
-      final tile = tiles[tileIndex];
-      final whitespaceTile = getWhitespaceTile();
-      final whitespaceTileIndex = tiles.indexOf(whitespaceTile);
-
-      // Swap current board positions of the moving tile and the whitespace.
-      tiles[tileIndex] = tile.copyWith(
-        currentPosition: whitespaceTile.currentPosition,
-      );
-      tiles[whitespaceTileIndex] = whitespaceTile.copyWith(
-        currentPosition: tile.currentPosition,
-      );
-    }
-
-    return Puzzle(tiles: tiles);
   }
 
   /// Sorts puzzle tiles so they are in order of their current position.
