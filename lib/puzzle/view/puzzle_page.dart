@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:very_good_slide_puzzle/audio_control/audio_control.dart';
+import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/l10n/l10n.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
 import 'package:very_good_slide_puzzle/models/models.dart';
@@ -33,6 +34,13 @@ class PuzzlePage extends StatelessWidget {
         BlocProvider(
           create: (_) => AudioControlBloc(),
         ),
+           BlocProvider(
+          create: (context) => ThemeBloc(
+            initialThemes: [
+              const SimpleTheme()
+            ],
+          ),
+        ),
       ],
       child: const PuzzleView(),
     );
@@ -48,17 +56,34 @@ class PuzzleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 
-    /// Shuffle only if the current theme is Simple.
-    final shufflePuzzle = theme is SimpleTheme;
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
 
     return Scaffold(
       body: AnimatedContainer(
         duration: PuzzleThemeAnimationDuration.backgroundColorChange,
         decoration: BoxDecoration(color: theme.backgroundColor),
+        child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => TimerBloc(
+                  ticker: const Ticker(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => PuzzleBloc(9)
+                  ..add(
+                    const PuzzleInitialized(
+                      shufflePuzzle: true,
+                    ),
+                  ),
+              ),
+            ],
+            child: const _Puzzle(
+              key: Key('puzzle_view_puzzle'),
+            ),
       ),
-    );
+    ));
   }
 }
 
@@ -97,7 +122,6 @@ class _Puzzle extends StatelessWidget {
     );
   }
 }
-
 /// {@template puzzle_header}
 /// Displays the header of the puzzle.
 /// {@endtemplate}
